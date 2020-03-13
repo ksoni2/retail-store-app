@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MyInvoiceGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.strategies.impls</a> &gt; <span class="el_source">MyInvoiceGenerator.java</span></div><h1>MyInvoiceGenerator.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.strategies.impls;
+
+import com.retailapp.billing.beans.Invoice;
+import com.retailapp.billing.beans.Product;
+import com.retailapp.billing.beans.Shopper;
+import com.retailapp.billing.beans.UserDetails;
+import com.retailapp.billing.constants.InvoiceDiscounts;
+import com.retailapp.billing.constants.ProductTypes;
+import com.retailapp.billing.constants.UserTypes;
+import com.retailapp.billing.strategies.InvoicingStrategy;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
+
+<span class="fc" id="L16">public class MyInvoiceGenerator implements InvoicingStrategy {</span>
+    @Override
+    public void generate(Shopper shopper) {
+<span class="fc" id="L19">        UserDetails userDetails = shopper.getUserDetails();</span>
+<span class="fc" id="L20">        double userDiscountPercentage = getUserDiscount(userDetails.getUserType(), userDetails.getUserSince());</span>
+<span class="fc" id="L21">        double totalDiscountApplied = 0.0d;</span>
+<span class="fc" id="L22">        double totalBill = 0.0d;</span>
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for (Product p : shopper.getShoppingCart().getProductsInCart().getProducts().values()) {</span>
+<span class="fc" id="L25">            totalBill += getDiscountedProductPrice(p);</span>
+<span class="fc" id="L26">            totalDiscountApplied += getDiscountOnProductPrice(p);</span>
+<span class="fc" id="L27">        }</span>
+
+<span class="fc" id="L29">        totalDiscountApplied += totalBill * userDiscountPercentage;</span>
+<span class="fc" id="L30">        totalBill *= (1 - userDiscountPercentage);</span>
+
+<span class="fc" id="L32">        shopper.setInvoice(new Invoice(UUID.randomUUID(), LocalDateTime.now(), totalBill, totalDiscountApplied));</span>
+<span class="fc" id="L33">    }</span>
+
+    private double getDiscountedProductPrice(Product product) {
+<span class="fc" id="L36">        return product.getQuantity() * product.getUnitPrice() - getDiscountOnProductPrice(product);</span>
+    }
+
+    private double getDiscountOnProductPrice(Product product) {
+<span class="fc" id="L40">        return product.getQuantity() * product.getUnitPrice() *</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                ((product.getType().equals(ProductTypes.GROCERY)) ? 0 : InvoiceDiscounts.NOT_GROCERY.getDiscount());</span>
+    }
+
+    private double getUserDiscount(UserTypes userType, LocalDateTime userSince) {
+<span class="fc" id="L45">        double userDiscountPercentage = 0.0d;</span>
+<span class="pc bpc" id="L46" title="1 of 4 branches missed.">        switch (userType) {</span>
+            case AFFILIATE:
+<span class="fc" id="L48">                userDiscountPercentage = InvoiceDiscounts.AFFILIATE.getDiscount();</span>
+<span class="fc" id="L49">                break;</span>
+            case CUSTOMER:
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                if (ChronoUnit.YEARS.between(userSince, LocalDateTime.now()) &gt; 2) {</span>
+<span class="fc" id="L52">                    userDiscountPercentage = InvoiceDiscounts.CUSTOMER.getDiscount();</span>
+                }
+                break;
+            case EMPLOYEE:
+<span class="fc" id="L56">                userDiscountPercentage = InvoiceDiscounts.EMPLOYEE.getDiscount();</span>
+                break;
+        }
+<span class="fc" id="L59">        return userDiscountPercentage;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

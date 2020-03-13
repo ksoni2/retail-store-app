@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationConstants.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.constants</a> &gt; <span class="el_source">ApplicationConstants.java</span></div><h1>ApplicationConstants.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.constants;
+
+import java.text.DecimalFormat;
+
+<span class="fc" id="L5">public enum ApplicationConstants {</span>
+<span class="fc" id="L6">    CART_QUANTITY(2),</span>
+<span class="fc" id="L7">    SHOW_LOGS(true),</span>
+<span class="fc" id="L8">    INVENTORY_SHORTAGE_EX_MSG(&quot;**Cannot add from inventory, product is in shortage! **Please restock inventory**&quot;),</span>
+<span class="fc" id="L9">    DATE_TIME_FORMAT(&quot;cccc dd-MMMM-uuuu hh:mm a&quot;),</span>
+<span class="fc" id="L10">    BILL_HEADER(&quot; MY RETAIL STORE BILL &quot;),</span>
+<span class="fc" id="L11">    BILL_PRODUCT_HEADER(&quot; PRODUCTS PURCHASED &quot;),</span>
+<span class="fc" id="L12">    BILL_LENGTH(122),</span>
+<span class="fc" id="L13">    BILL_PADDING(&quot;*&quot;),</span>
+<span class="fc" id="L14">    BILL_SPACE(&quot; &quot;);</span>
+
+    private final Object appCons;
+
+<span class="fc" id="L18">    public static final DecimalFormat df = new DecimalFormat(&quot;#.##&quot;);</span>
+
+<span class="fc" id="L20">    ApplicationConstants(Object appCons){</span>
+<span class="fc" id="L21">        this.appCons = appCons;</span>
+<span class="fc" id="L22">    }</span>
+
+    public final Object getApplicationConstant(){
+<span class="fc" id="L25">        return appCons;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

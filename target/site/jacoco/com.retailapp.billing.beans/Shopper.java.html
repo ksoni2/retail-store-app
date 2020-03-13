@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Shopper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.beans</a> &gt; <span class="el_source">Shopper.java</span></div><h1>Shopper.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.beans;
+
+public final class Shopper {
+    private final UserDetails userDetails;
+    private final ShoppingCart shoppingCart;
+    private Invoice invoice;
+
+<span class="fc" id="L8">    public Shopper(UserDetails userDetails, ShoppingCart shoppingCart) {</span>
+<span class="fc" id="L9">        this.userDetails = userDetails;</span>
+<span class="fc" id="L10">        this.shoppingCart = shoppingCart;</span>
+<span class="fc" id="L11">        this.invoice = null;</span>
+<span class="fc" id="L12">    }</span>
+
+    public UserDetails getUserDetails() {
+<span class="fc" id="L15">        return userDetails;</span>
+    }
+
+    public ShoppingCart getShoppingCart() {
+<span class="fc" id="L19">        return shoppingCart;</span>
+    }
+
+    public void setInvoice(Invoice invoice) {
+<span class="fc" id="L23">        this.invoice = invoice;</span>
+<span class="fc" id="L24">    }</span>
+
+    public Invoice getInvoice() {
+<span class="fc" id="L27">        return invoice;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L32">        return &quot;Shopper{&quot; +</span>
+                &quot;userDetails=&quot; + userDetails +
+                &quot;, shoppingCart=&quot; + shoppingCart +
+                &quot;, invoice=&quot; + invoice +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

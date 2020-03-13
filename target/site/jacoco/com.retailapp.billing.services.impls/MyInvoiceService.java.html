@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MyInvoiceService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.services.impls</a> &gt; <span class="el_source">MyInvoiceService.java</span></div><h1>MyInvoiceService.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.services.impls;
+
+import com.retailapp.billing.beans.Product;
+import com.retailapp.billing.beans.Shopper;
+import com.retailapp.billing.constants.ApplicationConstants;
+import com.retailapp.billing.helpers.Utility;
+import com.retailapp.billing.services.InvoiceService;
+import com.retailapp.billing.strategies.InvoicingStrategy;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Collection;
+
+public class MyInvoiceService implements InvoiceService {
+    private final InvoicingStrategy invoicingStrategy;
+
+<span class="fc" id="L16">    public MyInvoiceService(InvoicingStrategy invoicingStrategy) {</span>
+<span class="fc" id="L17">        this.invoicingStrategy = invoicingStrategy;</span>
+<span class="fc" id="L18">    }</span>
+
+    @Override
+    public void generate(Shopper shopper) {
+<span class="fc" id="L22">        invoicingStrategy.generate(shopper);</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public void print(Shopper shopper) {
+        //Bill Header
+<span class="fc" id="L28">        Utility.printBuffer();</span>
+<span class="fc" id="L29">        Utility.printCenter(ApplicationConstants.BILL_HEADER.getApplicationConstant().toString(),</span>
+<span class="fc" id="L30">                ApplicationConstants.BILL_PADDING.getApplicationConstant().toString());</span>
+<span class="fc" id="L31">        Utility.printBuffer();</span>
+<span class="fc" id="L32">        Utility.println(&quot; &quot;);</span>
+
+        //Bill &amp; User Info
+<span class="fc" id="L35">        Utility.printBillMeta(shopper);</span>
+<span class="fc" id="L36">        Utility.println(&quot; &quot;);</span>
+
+        //Bill Products Info
+<span class="fc" id="L39">        Utility.printBuffer();</span>
+<span class="fc" id="L40">        Utility.printCenter(ApplicationConstants.BILL_PRODUCT_HEADER.getApplicationConstant().toString(),</span>
+<span class="fc" id="L41">                ApplicationConstants.BILL_PADDING.getApplicationConstant().toString());</span>
+<span class="fc" id="L42">        Utility.printProducts(shopper.getShoppingCart().getProductsInCart().getProducts().values());</span>
+<span class="fc" id="L43">        Utility.printColumn(&quot;Total Discount = $&quot; + ApplicationConstants.df.format(shopper.getInvoice().getDiscount()),</span>
+<span class="fc" id="L44">                &quot;Discounted Bill = $&quot; + ApplicationConstants.df.format(shopper.getInvoice().getAmount()),</span>
+<span class="fc" id="L45">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L46">        Utility.printBuffer();</span>
+<span class="fc" id="L47">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Utility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.helpers</a> &gt; <span class="el_source">Utility.java</span></div><h1>Utility.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.helpers;
+
+import com.retailapp.billing.beans.Product;
+import com.retailapp.billing.beans.Shopper;
+import com.retailapp.billing.constants.ApplicationConstants;
+import org.apache.commons.lang3.StringUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+
+<span class="nc" id="L13">public class Utility {</span>
+
+    public static void println(Object o) {
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">        if ((Boolean) ApplicationConstants.SHOW_LOGS.getApplicationConstant()) {</span>
+<span class="fc" id="L17">            System.out.println(o);</span>
+        }
+<span class="fc" id="L19">    }</span>
+
+    public static String getFormattedDate(LocalDateTime localDateTime) {
+<span class="fc" id="L22">        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(</span>
+<span class="fc" id="L23">                (String) ApplicationConstants.DATE_TIME_FORMAT.getApplicationConstant()</span>
+        );
+<span class="fc" id="L25">        return localDateTime.format(dateTimeFormatter);</span>
+    }
+
+    public static String getCSVFromList(List list){
+<span class="fc" id="L29">        String csv = &quot;&quot;;</span>
+<span class="pc bpc" id="L30" title="2 of 4 branches missed.">        if(list!=null &amp;&amp; !list.isEmpty()){</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            for(Object object : list){</span>
+<span class="fc" id="L32">                csv += object.toString()+&quot;, &quot;;</span>
+<span class="fc" id="L33">            }</span>
+<span class="fc" id="L34">            csv = csv.substring(0, csv.lastIndexOf(&quot;, &quot;));</span>
+        }
+<span class="fc" id="L36">        return csv;</span>
+    }
+
+    public static void printBillMeta(Shopper shopper) {
+<span class="fc" id="L40">        printColumn(&quot;Date&quot;,Utility.getFormattedDate(shopper.getInvoice().getDate()),</span>
+<span class="fc" id="L41">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L42">        printColumn(&quot;Bill ID&quot;,shopper.getInvoice().getUid().toString(),</span>
+<span class="fc" id="L43">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L44">        printColumn(&quot;Customer Name&quot;,shopper.getUserDetails().getName(),</span>
+<span class="fc" id="L45">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L46">        printColumn(&quot;Customer ID&quot;,shopper.getUserDetails().getUid(),</span>
+<span class="fc" id="L47">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L48">        printColumn(&quot;Customer Contacts&quot;, Utility.getCSVFromList(shopper.getUserDetails().getContacts()),</span>
+<span class="fc" id="L49">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L50">        printColumn(&quot;Customer Since&quot;,Utility.getFormattedDate(shopper.getUserDetails().getUserSince()),</span>
+<span class="fc" id="L51">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L52">        printColumn(&quot;Customer Type&quot;,shopper.getUserDetails().getUserType().toString(),</span>
+<span class="fc" id="L53">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L54">    }</span>
+
+    public static void printBuffer(){
+<span class="fc" id="L57">        Utility.println(StringUtils.repeat(ApplicationConstants.BILL_PADDING.getApplicationConstant().toString(),</span>
+<span class="fc" id="L58">                (int)ApplicationConstants.BILL_LENGTH.getApplicationConstant()));</span>
+<span class="fc" id="L59">    }</span>
+
+    public static void printCenter(String s, String padding){
+<span class="fc" id="L62">        Utility.println(StringUtils.rightPad(StringUtils.leftPad(s,</span>
+<span class="fc" id="L63">                ((int)ApplicationConstants.BILL_LENGTH.getApplicationConstant()+s.length())/2,</span>
+<span class="fc" id="L64">                padding),(int)ApplicationConstants.BILL_LENGTH.getApplicationConstant(),padding));</span>
+<span class="fc" id="L65">    }</span>
+
+    public static void printColumn(String s, String t, String padding){
+<span class="fc" id="L68">        Utility.println(</span>
+<span class="fc" id="L69">                StringUtils.repeat(ApplicationConstants.BILL_SPACE.getApplicationConstant().toString(),</span>
+<span class="fc" id="L70">                        (int)ApplicationConstants.BILL_LENGTH.getApplicationConstant()/4) +</span>
+<span class="fc" id="L71">                        StringUtils.rightPad(s,</span>
+<span class="fc" id="L72">                                (int)ApplicationConstants.BILL_LENGTH.getApplicationConstant()/4, padding) + t</span>
+        );
+<span class="fc" id="L74">    }</span>
+
+    public static void printProducts(Collection&lt;Product&gt; products){
+<span class="fc" id="L77">        double total = 0.0d;</span>
+<span class="fc" id="L78">        String productHeader =  StringUtils.rightPad(&quot; PRODUCT NAME &quot;,30,&quot; &quot;) +</span>
+<span class="fc" id="L79">                StringUtils.rightPad(&quot;PRODUCT ID&quot;,40,&quot; &quot;) +</span>
+<span class="fc" id="L80">                StringUtils.rightPad(&quot;PRODUCT TYPE&quot;,18,&quot; &quot;) +</span>
+<span class="fc" id="L81">                StringUtils.rightPad(&quot;UNIT PRICE&quot;,12,&quot; &quot;) +</span>
+<span class="fc" id="L82">                StringUtils.rightPad(&quot;QUANTITY&quot;,10,&quot; &quot;)+</span>
+<span class="fc" id="L83">                StringUtils.rightPad(&quot;TOTAL PRICE&quot;,12,&quot; &quot;);</span>
+<span class="fc" id="L84">        printBuffer();</span>
+<span class="fc" id="L85">        Utility.println(productHeader);</span>
+<span class="fc" id="L86">        printBuffer();</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (Product p : products){</span>
+<span class="fc" id="L88">            String product =  StringUtils.rightPad(&quot;* &quot;+p.getName(),30,&quot; &quot;) +</span>
+<span class="fc" id="L89">                    StringUtils.rightPad(p.getId().toString(),40,&quot; &quot;) +</span>
+<span class="fc" id="L90">                    StringUtils.rightPad(p.getType().toString(),18,&quot; &quot;) +</span>
+<span class="fc" id="L91">                    StringUtils.rightPad(&quot;$&quot;+p.getUnitPrice(),12,&quot; &quot;) +</span>
+<span class="fc" id="L92">                    StringUtils.rightPad(String.valueOf(p.getQuantity()),10,&quot; &quot;)+</span>
+<span class="fc" id="L93">                    StringUtils.rightPad(&quot;$&quot;+p.getQuantity()*p.getUnitPrice(),12,&quot; &quot;);</span>
+<span class="fc" id="L94">            total += p.getQuantity()*p.getUnitPrice();</span>
+<span class="fc" id="L95">            Utility.println(product);</span>
+<span class="fc" id="L96">        }</span>
+<span class="fc" id="L97">        printBuffer();</span>
+<span class="fc" id="L98">        printCenter(&quot;Undiscounted Bill = $&quot; + ApplicationConstants.df.format(total),</span>
+<span class="fc" id="L99">                ApplicationConstants.BILL_SPACE.getApplicationConstant().toString());</span>
+<span class="fc" id="L100">        printBuffer();</span>
+<span class="fc" id="L101">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

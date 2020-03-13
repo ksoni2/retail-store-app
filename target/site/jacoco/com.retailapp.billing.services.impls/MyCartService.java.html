@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MyCartService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.services.impls</a> &gt; <span class="el_source">MyCartService.java</span></div><h1>MyCartService.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.services.impls;
+
+import com.retailapp.billing.beans.Product;
+import com.retailapp.billing.beans.ShoppingCart;
+import com.retailapp.billing.exceptions.InventoryShortageException;
+import com.retailapp.billing.services.ShoppingCartService;
+import com.retailapp.billing.services.StoreDBService;
+import com.retailapp.billing.strategies.CartLoadingStrategy;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
+
+public class MyCartService implements ShoppingCartService {
+
+    private final StoreDBService myStoreDBService;
+    private final CartLoadingStrategy myCartLoadingStrategy;
+
+    public MyCartService(StoreDBService myStoreDBService,
+<span class="fc" id="L21">                         CartLoadingStrategy myCartLoadingStrategy) {</span>
+<span class="fc" id="L22">        this.myStoreDBService = myStoreDBService;</span>
+<span class="fc" id="L23">        this.myCartLoadingStrategy = myCartLoadingStrategy;</span>
+<span class="fc" id="L24">    }</span>
+
+    @Override
+    public boolean addProduct(Product product, ShoppingCart shoppingCart) {
+<span class="fc" id="L28">        boolean response = false;</span>
+<span class="fc" id="L29">        LinkedHashMap&lt;UUID, Product&gt; productsInCart = shoppingCart.getProductsInCart().getProducts();</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (!productsInCart.containsValue(product)) {</span>
+<span class="fc" id="L31">            productsInCart.put(product.getId(), product);</span>
+<span class="fc" id="L32">            response = true;</span>
+        }
+<span class="fc" id="L34">        return response;</span>
+    }
+
+    @Override
+    public boolean addProductBatch(Set&lt;Product&gt; products, ShoppingCart shoppingCart) {
+<span class="fc" id="L39">        boolean response = false;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for(Product p : products){</span>
+<span class="fc" id="L41">            response = addProduct(p, shoppingCart);</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if(!response){</span>
+<span class="nc" id="L43">                break;</span>
+            }
+<span class="fc" id="L45">        }</span>
+<span class="fc" id="L46">        return response;</span>
+    }
+
+    @Override
+    public boolean removeProduct(UUID pid, ShoppingCart shoppingCart) {
+<span class="nc" id="L51">        boolean response = false;</span>
+<span class="nc" id="L52">        LinkedHashMap&lt;UUID, Product&gt; productsInCart = shoppingCart.getProductsInCart().getProducts();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (productsInCart.containsKey(pid)) {</span>
+<span class="nc" id="L54">            productsInCart.remove(pid);</span>
+<span class="nc" id="L55">            response = true;</span>
+        }
+<span class="nc" id="L57">        return response;</span>
+    }
+
+    @Override
+    public boolean updateProduct(Product product, ShoppingCart shoppingCart) {
+<span class="nc" id="L62">        boolean response = false;</span>
+<span class="nc" id="L63">        LinkedHashMap&lt;UUID, Product&gt; productsInCart = shoppingCart.getProductsInCart().getProducts();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (productsInCart.containsKey(product.getId())) {</span>
+<span class="nc" id="L65">            productsInCart.put(product.getId(), product);</span>
+<span class="nc" id="L66">            response = true;</span>
+        }
+<span class="nc" id="L68">        return response;</span>
+    }
+
+    @Override
+    public Product getProduct(UUID pid, ShoppingCart shoppingCart) {
+<span class="nc" id="L73">        return shoppingCart.getProductsInCart().getProducts().get(pid);</span>
+    }
+
+    @Override
+    public Set&lt;Product&gt; getAllProducts(ShoppingCart shoppingCart) {
+<span class="fc" id="L78">        return new LinkedHashSet&lt;&gt;(shoppingCart.getProductsInCart().getProducts().values());</span>
+    }
+
+    @Override
+    public boolean loadNEachFromInventory(int loadQuantity, ShoppingCart shoppingCart) throws InventoryShortageException {
+<span class="fc" id="L83">        return addProductBatch(myCartLoadingStrategy</span>
+<span class="fc" id="L84">                .loadNEachFromInventory(myStoreDBService.getInventory(),loadQuantity), shoppingCart);</span>
+    }
+
+    public ShoppingCart getNewShoppingCart() {
+<span class="fc" id="L88">        return new ShoppingCart();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

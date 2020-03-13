@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Store.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.strategies.impls</a> &gt; <span class="el_source">Store.java</span></div><h1>Store.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.strategies.impls;
+
+import com.retailapp.billing.beans.Product;
+import com.retailapp.billing.beans.Products;
+import com.retailapp.billing.constants.ProductTypes;
+import com.retailapp.billing.strategies.StoreDBStrategy;
+
+import java.util.UUID;
+
+//Singleton &amp; Immutable
+public final class Store implements StoreDBStrategy {
+
+<span class="fc" id="L13">    private final ThreadLocal&lt;Products&gt; productInventory = new ThreadLocal&lt;&gt;();</span>
+
+<span class="fc" id="L15">    private Store() {</span>
+<span class="fc" id="L16">        productInventory.set(initialize());</span>
+<span class="fc" id="L17">    }</span>
+
+    private static final class StoreLoader {
+<span class="fc" id="L20">        private static final Store singleton = new Store();</span>
+    }
+
+    public static final Store getStore() {
+<span class="fc" id="L24">        return StoreLoader.singleton;</span>
+    }
+
+    @Override
+    public final ThreadLocal&lt;Products&gt; getProductInventory() {
+<span class="fc" id="L29">        return productInventory;</span>
+    }
+
+    private final Products initialize() {
+<span class="fc" id="L33">        Products inventory = new Products();</span>
+
+        //Add Product 1
+<span class="fc" id="L36">        UUID pid = UUID.randomUUID();</span>
+<span class="fc" id="L37">        Product p = new Product(pid, &quot;Vanheusen LM31 M&quot;, 20, ProductTypes.CLOTHING, 19.99d);</span>
+<span class="fc" id="L38">        inventory.getProducts().put(pid, p);</span>
+
+        //Add Product 2
+<span class="fc" id="L41">        pid = UUID.randomUUID();</span>
+<span class="fc" id="L42">        p = new Product(pid, &quot;Gillete Vector Blue&quot;, 62, ProductTypes.COSMETICS, 4.99d);</span>
+<span class="fc" id="L43">        inventory.getProducts().put(pid, p);</span>
+
+        //Add Product 3
+<span class="fc" id="L46">        pid = UUID.randomUUID();</span>
+<span class="fc" id="L47">        p = new Product(pid, &quot;Transcend 64GB P320&quot;, 120, ProductTypes.ELECTRONICS, 14.99d);</span>
+<span class="fc" id="L48">        inventory.getProducts().put(pid, p);</span>
+
+        //Add Product 4
+<span class="fc" id="L51">        pid = UUID.randomUUID();</span>
+<span class="fc" id="L52">        p = new Product(pid, &quot;Tomato&quot;, 20, ProductTypes.GROCERY, 0.99d);</span>
+<span class="fc" id="L53">        inventory.getProducts().put(pid, p);</span>
+
+        //Add Product 5
+<span class="fc" id="L56">        pid = UUID.randomUUID();</span>
+<span class="fc" id="L57">        p = new Product(pid, &quot;Luxor Black Royal Smooth&quot;, 45, ProductTypes.STATIONERY, 1.99d);</span>
+<span class="fc" id="L58">        inventory.getProducts().put(pid, p);</span>
+
+<span class="fc" id="L60">        return inventory;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

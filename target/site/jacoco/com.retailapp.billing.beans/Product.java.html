@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Product.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">retail-store-app</a> &gt; <a href="index.source.html" class="el_package">com.retailapp.billing.beans</a> &gt; <span class="el_source">Product.java</span></div><h1>Product.java</h1><pre class="source lang-java linenums">package com.retailapp.billing.beans;
+
+import com.retailapp.billing.constants.ProductTypes;
+
+import java.util.Objects;
+import java.util.UUID;
+
+public final class Product implements Cloneable {
+    private final UUID id;
+    private final String name;
+    private int quantity;
+    private final ProductTypes type;
+    private final double unitPrice;
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L17">        int result = 1;</span>
+<span class="fc" id="L18">        int prime = 31;</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        result = result * prime + ((id != null) ? (id.hashCode()) : (0));</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        result = result * prime + ((name != null) ? (name.hashCode()) : (0));</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        result = result * prime + ((type != null) ? (type.hashCode()) : (0));</span>
+<span class="fc" id="L22">        return result;</span>
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc" id="L27">        return Objects.equals(id, ((Product) obj).getId());</span>
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+<span class="fc" id="L32">        return super.clone();</span>
+    }
+
+<span class="fc" id="L35">    public Product(UUID id, String name, int quantity, ProductTypes type, double unitPrice) {</span>
+<span class="fc" id="L36">        this.id = id;</span>
+<span class="fc" id="L37">        this.name = name;</span>
+<span class="fc" id="L38">        this.quantity = quantity;</span>
+<span class="fc" id="L39">        this.type = type;</span>
+<span class="fc" id="L40">        this.unitPrice = unitPrice;</span>
+<span class="fc" id="L41">    }</span>
+
+    public UUID getId() {
+<span class="fc" id="L44">        return id;</span>
+    }
+
+    public int getQuantity() {
+<span class="fc" id="L48">        return quantity;</span>
+    }
+
+    public void setQuantity(int quantity) {
+<span class="fc" id="L52">        this.quantity = quantity;</span>
+<span class="fc" id="L53">    }</span>
+
+    public ProductTypes getType() {
+<span class="fc" id="L56">        return type;</span>
+    }
+
+    public double getUnitPrice() {
+<span class="fc" id="L60">        return unitPrice;</span>
+    }
+
+    public String getName() {
+<span class="fc" id="L64">        return name;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L69">        return &quot;Product{&quot; +</span>
+                &quot;id='&quot; + id + '\'' +
+                &quot;, name='&quot; + name + '\'' +
+                &quot;, quantity=&quot; + quantity +
+                &quot;, type=&quot; + type +
+                &quot;, unitPrice=&quot; + unitPrice +
+                '}';
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
